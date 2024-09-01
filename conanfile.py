@@ -70,16 +70,16 @@ class PackageConan(ConanFile):
         # 添加 `yaml` 别名
         self.cpp_info.components["yaml"].libs = ["configurator_yaml"]
         self.cpp_info.components["yaml"].requires = ["yaml-cpp::yaml-cpp"]
-        # self.cpp_info.components["yaml"].names["cmake_find_package"] = "yaml"
-        # self.cpp_info.components["yaml"].names["cmake_find_package_multi"] = "yaml"
+        self.cpp_info.components["yaml"].names["cmake_find_package"] = "yaml"
+        self.cpp_info.components["yaml"].names["cmake_find_package_multi"] = "yaml"
 
         self.cpp_info.components["fmt"].libs = []
         self.cpp_info.components["fmt"].requires = ["fmt::fmt"]
 
         # 添加 `fallback` 别名
         self.cpp_info.components["fallback"].libs = ["fallback_configurator"]
-        # self.cpp_info.components["fallback"].names["cmake_find_package"] = "fallback"
-        # self.cpp_info.components["fallback"].names["cmake_find_package_multi"] = "fallback"
+        self.cpp_info.components["fallback"].names["cmake_find_package"] = "fallback"
+        self.cpp_info.components["fallback"].names["cmake_find_package_multi"] = "fallback"
 
         # 添加 `soralog` 别名
         self.cpp_info.names["cmake_find_package"] = "soralog"
