@@ -12,7 +12,6 @@ class PackageConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     url = "https://github.com/simbahebinbo/conan-soralog.git"
     requires = (
-        "gtest/1.13.0",
         "yaml-cpp/0.6.3",
         "fmt/10.1.1"
     )
@@ -55,11 +54,10 @@ class PackageConan(ConanFile):
         copy(self, "*.a", dst=os.path.join(self.package_folder, "lib"), src=lib_folder)
 
     def package_info(self):
-        # 使用别名来指定库
         self.cpp_info.libs = [
-            "soralog",  # 对应 add_library(soralog ALIAS soralog)
-            "configurator_yaml",  # 对应 add_library(yaml ALIAS configurator_yaml)
-            "fallback_configurator",  # 对应 add_library(fallback ALIAS fallback_configurator)
+            "soralog",
+            "configurator_yaml",  # 这个对应 `yaml` 目标
+            "fallback_configurator",
             "logger",
             "sink_to_console",
             "sink_to_syslog",
@@ -69,6 +67,20 @@ class PackageConan(ConanFile):
             "sink_to_nowhere"
         ]
 
-        # 也可以使用别名来添加库到 cpp_info.libs
+        # 添加 `yaml` 别名
+        self.cpp_info.components["yaml"].libs = ["configurator_yaml"]
+        self.cpp_info.components["yaml"].requires = ["yaml-cpp::yaml-cpp"]
+        # self.cpp_info.components["yaml"].names["cmake_find_package"] = "yaml"
+        # self.cpp_info.components["yaml"].names["cmake_find_package_multi"] = "yaml"
+
+        self.cpp_info.components["fmt"].libs = []
+        self.cpp_info.components["fmt"].requires = ["fmt::fmt"]
+
+        # 添加 `fallback` 别名
+        self.cpp_info.components["fallback"].libs = ["fallback_configurator"]
+        # self.cpp_info.components["fallback"].names["cmake_find_package"] = "fallback"
+        # self.cpp_info.components["fallback"].names["cmake_find_package_multi"] = "fallback"
+
+        # 添加 `soralog` 别名
         self.cpp_info.names["cmake_find_package"] = "soralog"
         self.cpp_info.names["cmake_find_package_multi"] = "soralog"
